@@ -34,7 +34,7 @@ pipeline {
         stage("Deploy") {
             steps {
                 sh 'docker build -t deploy_yara . -f jenkins/Dockerfile_deploy'
-                sh 'docker run  -v repo_vol:/yara  deploy_yara'
+                sh 'docker run  -v ${PWD}:/yara  deploy_yara'
             }
         }
         stage("Publish") {
@@ -42,7 +42,7 @@ pipeline {
                   environment name: 'PROMOTE', value: "true"
             }
             steps {
-                sh "mv yara.tar.gz yara_${VERSION}.tar.gz"
+                sh "tar -czvf yara_${VERSION}.tar.gz /yara"
                 archiveArtifacts "yara_${VERSION}.tar.gz"
             }
         }
