@@ -12,15 +12,14 @@ pipeline {
               sh 'docker container prune -f'
               sh 'docker volume prune -f'
               sh 'docker volume  create --name repo_vol'
-              sh 'docker volume  create --name build_vol'
-              sh "docker build -t clone_yara . -f ITE/GCL06/AP401673/Lab05/Dockerfile_clone"
+              sh "docker build -t clone_yara . -f jenkins/Dockerfile_clone"
               sh "docker run -v repo_vol:/yara clone_yara"
                 }
               }
         stage("Build") {
             steps {
-                sh 'docker build -t build_yara . -f ITE/GCL06/AP401673/Lab05/Dockerfile_build'
-                sh 'docker run -v repo_vol:/yara -v build_vol:/build -v ${PWD}:/public build_yara'
+                sh 'docker build -t build_yara . -f jenkins/Dockerfile_build'
+                sh 'docker run -v repo_vol:/yara -v ${PWD}:/public build_yara'
             }
         }
         stage("Test") {
@@ -28,13 +27,13 @@ pipeline {
                   environment name: 'RUN_TESTS', value: "true"
             }
             steps {
-                sh 'docker build -t test_yara . -f ITE/GCL06/AP401673/Lab05/Dockerfile_test --build-arg image=build_yara'
+                sh 'docker build -t test_yara . -f jenkins/Dockerfile_test --build-arg image=build_yara'
                 sh 'docker run  -v repo_vol:/yara test_yara'
             }
         }
         stage("Deploy") {
             steps {
-                sh 'docker build -t deploy_yara . -f ITE/GCL06/AP401673/Lab05/Dockerfile_deploy'
+                sh 'docker build -t deploy_yara . -f jenkins/Dockerfile_deploy'
                 sh 'docker run  -v repo_vol:/yara  deployment'
             }
         }
