@@ -38,7 +38,7 @@ pipeline {
                   environment name: 'PROMOTE', value: "true"
             }
             steps {
-                sh "tar -czvf yara_${VERSION}.tar.gz /yara"
+                sh "tar -czvf yara_${VERSION}.tar.gz yara"
                 archiveArtifacts "yara_${VERSION}.tar.gz"
             }
         }
