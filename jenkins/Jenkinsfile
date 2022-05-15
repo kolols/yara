@@ -28,7 +28,7 @@ pipeline {
                   environment name: 'RUN_TESTS', value: "true"
             }
             steps {
-                sh 'docker build -t test_yara . -f ITE/GCL06/AP401673/Lab05/Dockerfile_test --build-arg image=build'
+                sh 'docker build -t test_yara . -f ITE/GCL06/AP401673/Lab05/Dockerfile_test --build-arg image=build_yara'
                 sh 'docker run  -v repo_vol:/yara test_yara'
             }
         }
