@@ -4,4 +4,4 @@ RUN apt-get update && apt-get install -y \
 gcc \
 make
 WORKDIR yara
-CMD sh -c "make install && echo "/usr/local/lib" >> /etc/ld.so.conf && ldconfig && echo rule dummy { condition: true } > my_first_rule && yara my_first_rule my_first_rule"
+CMD sh -c "ls -la && make install && echo "/usr/local/lib" >> /etc/ld.so.conf && ldconfig && echo rule dummy { condition: true } > my_first_rule && yara my_first_rule my_first_rule"
